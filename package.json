@@ -28,6 +28,8 @@
     "build": "tsc -p tsconfig.build.json",
     "clean": "rm -rf dist reports evidence coverage",
     "cli": "tsx src/cli.ts",
+    "aup": "tsx src/cli.ts",
+    "scan": "tsx src/cli.ts run",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
