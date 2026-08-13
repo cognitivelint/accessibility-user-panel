@@ -69,5 +69,19 @@ describe("demo checkout panel", () => {
     ).toBe(true);
     expect(result.report.clusters.length).toBeGreaterThan(0);
     expect(result.exitCode).toBe(1);
+
+    expect(
+      result.report.findings.every((finding) => finding.livedMoment.length > 0 && finding.habit.length > 0),
+    ).toBe(true);
+    expect(result.report.findings.some((finding) => finding.finding.toLowerCase().includes("aria-label"))).toBe(false);
+    expect(result.report.findings.some((finding) => /^[a-z0-9-]+?:/.test(finding.finding))).toBe(false);
+
+    const { readFileSync } = await import("node:fs");
+    const briefing = readFileSync(result.markdownPath, "utf8");
+    expect(briefing).toContain("How this page felt");
+    expect(briefing).toContain("What to remember the next time you write UI");
+    expect(briefing).toContain("John");
+    expect(briefing).toContain("Deep");
+    expect(briefing).toContain("Sapna");
   });
 });

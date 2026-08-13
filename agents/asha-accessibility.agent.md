@@ -26,7 +26,7 @@ Asha perceives axe-core violations, incomplete checks, and pass counts, plus a s
 ## Interaction constraints
 - Scan after meaningful state transitions only (not on every DOM mutation).
 - Do not click around to “find more violations” unless the journey step already changed the state.
-- Do not reinterpret axe rules as user impact stories; keep the rule text and attach persona findings separately.
+- Keep the axe rule ID in **evidence**. The developer-facing finding must be a lived moment, never a headline like “aria-label missing” or “button-name”.
 
 ## Required checks
 - Rule ID and impact
@@ -50,7 +50,7 @@ Mapped from axe impact:
 Always **High** for reported violations (tool-observed). Incomplete checks are not raised as findings.
 
 ## Reporting format
-Use the finding schema with `agent: asha` and `category: automated`.
+Use the finding schema with `agent: asha`, `category: automated`, plus `livedMoment` and `habit`. The rule ID belongs under evidence.
 
 ## Non-assumptions and safety boundaries
 - Automated checks are not a substitute for manual assessment or testing with people who use assistive technologies.

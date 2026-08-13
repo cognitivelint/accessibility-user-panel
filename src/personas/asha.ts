@@ -1,5 +1,6 @@
 import { runAxeScan } from "../skills/axe-scan.js";
 import { axeImpactToSeverity } from "../util/severity.js";
+import { translateAxeRule } from "../voice/axe-stories.js";
 import { createFinding, type ExplorationContext, type PersonaAgent } from "./types.js";
 import type { Finding } from "../schema/finding.js";
 
@@ -24,6 +25,12 @@ export class AshaAuditorAgent implements PersonaAgent {
     return scan.violations.flatMap((violation) => {
       const node = violation.nodes[0];
       const wcag = violation.tags.filter((tag) => tag.startsWith("wcag"));
+      const story = translateAxeRule(violation.ruleId, violation.help, {
+        nodeCount: violation.nodes.length,
+        html: node?.html,
+        target: node?.target.join(" "),
+        step: ctx.step.name,
+      });
       return [
         createFinding({
           agent: this.id,
@@ -32,11 +39,13 @@ export class AshaAuditorAgent implements PersonaAgent {
           category: "automated",
           severity: axeImpactToSeverity(violation.impact),
           confidence: "high",
-          finding: `${violation.ruleId}: ${violation.help}`,
-          impact: `Deterministic axe-core violation at this UI state (${violation.nodes.length} node(s)).`,
+          finding: story.finding,
+          livedMoment: story.livedMoment,
+          habit: story.habit,
+          impact: story.impact,
           recommendation: violation.helpUrl
-            ? `See ${violation.helpUrl} and remediate the listed nodes.`
-            : "Remediate the listed nodes according to the axe-core guidance.",
+            ? `${story.recommendation} (Asha’s checker note: ${violation.ruleId} — ${violation.helpUrl})`
+            : story.recommendation,
           evidence: {
             axe: violation,
             screenshotPath,

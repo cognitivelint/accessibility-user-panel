@@ -1,21 +1,27 @@
 # Skill: finding-report
 
 ## Purpose
-Normalize, deduplicate, cluster, and publish findings as JSON and Markdown.
+Turn exploration into a briefing a developer can feel — then keep JSON for machines.
 
-## Contract
+## Voice
+Lead with the person and the moment. Never headline a finding with a rule ID or “aria-label missing”.
+Asha’s checker output is proof, folded under details.
+
 Every finding must include:
 - agent, journey, step, category
 - severity and confidence
-- human-readable finding, impact, recommendation
+- `finding` (plain language title)
+- `livedMoment` (what it felt like)
+- `impact`, `recommendation`
+- `habit` (what to remember the next time they write UI)
 - evidence artifact paths and/or axe payload
 
 ## Clustering
-Findings that share category, axe rule or gist, and target are clustered so duplicate John/Deep/Asha observations appear once in the executive view.
+Collapse the same issue across journey steps. Cluster related observations from multiple agents.
 
 ## Outputs
-- `reports/<runId>/report.json` (`schemaVersion` 1.0.0)
-- `reports/<runId>/report.md`
+- `reports/<runId>/report.md` — the briefing
+- `reports/<runId>/report.json` (`schemaVersion` 1.1.0)
 
 ## Implementation
-`src/findings/engine.ts`, `src/report/write.ts`
+`src/findings/engine.ts`, `src/report/write.ts`, `src/voice/`

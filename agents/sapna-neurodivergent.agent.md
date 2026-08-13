@@ -63,7 +63,7 @@ Store cognitive signals JSON (`sapna-cognitive-signals.json`). Include the obser
 - **Low**: subjective copy tone without a structural pattern
 
 ## Reporting format
-Use the finding schema with `agent: sapna` and `category: cognitive`.
+Use the finding schema with `agent: sapna`, `category: cognitive`, a lived moment, and a habit.
 
 ## Non-assumptions and safety boundaries
 - Do not universalize neurodivergence.

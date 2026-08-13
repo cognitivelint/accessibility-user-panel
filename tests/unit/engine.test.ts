@@ -39,6 +39,8 @@ describe("finding engine", () => {
       severity: "high",
       confidence: "high",
       finding: "Keyboard focus remains on the underlying page after a dialog opens.",
+      livedMoment: "A dialog opened. John was still typing on the page underneath.",
+      habit: "Opening a layer is a scene change. Take the user’s focus with you.",
       impact: "Users interact behind the modal.",
       recommendation: "Move focus into the dialog.",
       evidence: { target: ".modal", wcag: ["2.4.3"], notes: [] },
@@ -51,6 +53,8 @@ describe("finding engine", () => {
       severity: "high",
       confidence: "high",
       finding: "The open dialog is not named in the accessibility tree.",
+      livedMoment: "Deep entered a room with no sign on the door.",
+      habit: "Every overlay is a scene. Title the scene.",
       impact: "Unlabeled overlay.",
       recommendation: "Name the dialog.",
       evidence: { target: ".modal", wcag: ["4.1.2"], notes: [] },
@@ -62,7 +66,9 @@ describe("finding engine", () => {
       category: "automated",
       severity: "high",
       confidence: "high",
-      finding: "button-name: Buttons must have discernible text",
+      finding: "A button never says what it does",
+      livedMoment: "Deep hears only “button”.",
+      habit: "If you ship a control, read it out loud.",
       impact: "axe violation",
       recommendation: "Name the button",
       evidence: {
@@ -137,6 +143,8 @@ describe("markdown report", () => {
       severity: "medium",
       confidence: "medium",
       finding: "Multiple visually similar primary actions.",
+      livedMoment: "Sapna saw Save, Apply, and Continue with equal weight.",
+      habit: "If everything is a primary button, nothing is.",
       impact: "Decision effort.",
       recommendation: "One primary CTA.",
       evidence: { snapshotPath: "evidence/run/form/sapna.json", wcag: [], notes: ["Save", "Apply", "Continue"] },
@@ -162,8 +170,11 @@ describe("markdown report", () => {
       evidenceRoot: "evidence/test-run",
     };
     const markdown = renderMarkdownReport(report);
-    expect(markdown).toContain("`checkout` / `form`");
+    expect(markdown).toContain("during **form**");
     expect(markdown).toContain("evidence/run/form/sapna.json");
-    expect(markdown).toContain("sapna");
+    expect(markdown).toContain("Sapna");
+    expect(markdown).toContain("What to remember the next time you write UI");
+    expect(markdown).toContain("Sapna saw Save, Apply, and Continue");
+    expect(markdown).not.toMatch(/button-name:/);
   });
 });

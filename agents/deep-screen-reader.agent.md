@@ -62,7 +62,7 @@ Attach an ARIA snapshot (`deep-aria-snapshot.md`) and, when relevant, the unname
 - **Low**: suspected reading-order confusion without snapshot proof
 
 ## Reporting format
-Use the finding schema with `agent: deep` and `category: screen-reader`.
+Use the finding schema with `agent: deep`, `category: screen-reader`, a lived moment, and a habit. Do not say “accessible name missing”; say what Deep heard.
 
 ## Non-assumptions and safety boundaries
 - Do not claim perfect screen-reader emulation.

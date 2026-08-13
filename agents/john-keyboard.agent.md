@@ -63,7 +63,7 @@ Every finding must include a focus trace (`john-focus-trace.json`) and the journ
 - **Low**: suspected custom widget behavior without a trace
 
 ## Reporting format
-Use the finding schema (`schemaVersion 1.0.0`) with `agent: john` and `category: keyboard`.
+Use the finding schema (`schemaVersion 1.1.0`) with `agent: john`, `category: keyboard`, a lived moment, and a habit. Never headline a finding with a rule ID.
 
 ## Non-assumptions and safety boundaries
 - Do not claim to represent all keyboard or switch users.

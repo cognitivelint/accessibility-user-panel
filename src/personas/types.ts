@@ -29,6 +29,8 @@ export function createFinding(input: {
   severity: Severity;
   confidence: Confidence;
   finding: string;
+  livedMoment: string;
+  habit: string;
   impact: string;
   recommendation: string;
   evidence?: Partial<Evidence>;
@@ -49,6 +51,8 @@ export function createFinding(input: {
     severity: input.severity,
     confidence: input.confidence,
     finding: input.finding,
+    livedMoment: input.livedMoment,
+    habit: input.habit,
     impact: input.impact,
     recommendation: input.recommendation,
     evidence,

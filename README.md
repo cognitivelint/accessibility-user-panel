@@ -1,8 +1,12 @@
 # Accessibility User Panel
 
-Playwright supplies agency. axe-core supplies objective evidence. Persona agents supply perspective. The report supplies traceability.
+The product is not a linter with better formatting. It is a way for developers to **meet the people inside their UI** until those people show up while they type.
 
-This is an **experience layer** for automated web accessibility testing — not a WCAG certification, not a replacement for people who use assistive technologies, and not a claim that any persona represents a population.
+A checker might say `button-name` or “aria-label missing”. This panel says: *Deep reached a control and heard only “button”. He had to guess.* Then it offers a habit to keep: *If you ship a control, read it out loud.*
+
+Playwright supplies agency. axe-core supplies proof. Persona agents supply perspective. The briefing supplies consciousness.
+
+This is not a WCAG certification, not a replacement for people who use assistive technologies, and not a claim that any persona represents a population.
 
 ## Personas
 
@@ -11,9 +15,9 @@ This is an **experience layer** for automated web accessibility testing — not 
 | **John** | Keyboard-only | Can I complete this journey without a mouse? |
 | **Deep** | Screen-reader semantics | Does the UI expose enough correct information to understand and operate it? |
 | **Sapna** | Cognitive / sensory | Can I understand what is happening, what to do next, and how to recover? |
-| **Asha** | Deterministic auditor | What does axe-core report at this UI state? |
+| **Asha** | Deterministic auditor | What can we *prove* — then tell as a lived moment, not a rule ID? |
 
-Agent contracts live in [`agents/`](agents/) (Playwright-style Markdown). Runtime implementations live in [`src/personas/`](src/personas/).
+Agent contracts live in [`agents/`](agents/). Runtimes live in [`src/personas/`](src/personas/). Voice lives in [`src/voice/`](src/voice/).
 
 ## Requirements
 
@@ -30,7 +34,7 @@ npm run demo:serve
 npx tsx src/cli.ts run --config aup.config.yaml
 ```
 
-Reports are written to `reports/<runId>/report.md` and `report.json`. Artifacts (axe JSON, ARIA snapshots, focus traces, screenshots, DOM) land under `evidence/<runId>/`.
+Read `reports/<runId>/report.md` first. That briefing is the product. JSON and `evidence/` are for CI and for opening the editor.
 
 ## Configuration
 
@@ -56,12 +60,11 @@ Exit codes: `0` below `--fail-on`, `1` when a finding meets the threshold, `2` o
 
 ```ts
 import { loadRunConfig, runAccessibilityPanel } from "accessibility-user-panel";
-import { createLogger } from "./logging.js"; // or inject your own logger
 ```
 
 ## Architecture
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Finding schema version is `1.0.0`.
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Finding schema version is `1.1.0` (`livedMoment` + `habit` on every finding).
 
 ## Tests
 

@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { loadRunConfig } from "./config/load.js";
 import { ConfigError } from "./errors.js";
 import { createLogger } from "./logging.js";
+import { renderCliBriefing } from "./report/write.js";
 import { runAccessibilityPanel } from "./runner/run.js";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -48,7 +49,7 @@ async function main(): Promise<void> {
           evidenceDir: opts.evidenceDir,
         });
         const result = await runAccessibilityPanel(config, log);
-        process.stdout.write(`Report: ${result.markdownPath}\nJSON: ${result.jsonPath}\n`);
+        process.stdout.write(`\n${renderCliBriefing(result.report)}\n\nBriefing: ${result.markdownPath}\n`);
         process.exitCode = result.exitCode;
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);

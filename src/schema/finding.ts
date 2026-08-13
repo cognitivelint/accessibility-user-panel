@@ -58,6 +58,8 @@ export const FindingSchema = z.object({
   severity: SeveritySchema,
   confidence: ConfidenceSchema,
   finding: z.string().min(1),
+  livedMoment: z.string().min(1),
+  habit: z.string().min(1),
   impact: z.string().min(1),
   recommendation: z.string().min(1),
   evidence: EvidenceSchema,
