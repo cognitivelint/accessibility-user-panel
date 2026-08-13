@@ -1,34 +1,33 @@
 # Accessibility User Panel
 
-AUP is **axe-core on steroids**: a token-conscious AI layer on Playwright tests you already have.
+Same idea as Playwright’s agents: **one command** drops markdown subagents into your app repo. You already have a URL and Playwright tests. Those tests are the journeys. AUP is axe-core on steroids — John, Deep, Sapna, Asha — running in VS Code / Cursor / Claude’s inbuilt model.
 
-You already mapped the journey in Playwright. You already run axe. AUP does not replace those. After the same action where you would call axe, it collects keyboard / tree / cognitive signals locally (no tokens), then hands Cursor or Claude’s **inbuilt** model a packet of **≤ ~1800 tokens**. The model never sees the DOM or the axe dump.
-
-A checker says `button-name`. The packet says Deep heard only “button.” The habit is: if you ship a control, read it out loud.
-
-No extra LLM API. `model: inherit` for Cursor and Claude.
-
-This is not a WCAG certificate and does not replace people who use assistive technologies.
-
-## Drop into an existing test
-
-```ts
-import { scanPlaywrightState } from "accessibility-user-panel";
-
-test("checkout / pay", async ({ page }) => {
-  await page.goto("/checkout");
-  await page.getByRole("button", { name: "Pay" }).click();
-
-  const { packet } = await scanPlaywrightState({
-    page,
-    test: "checkout / pay",
-    step: "dialog open",
-  });
-  // packet.budget.usedTokens is the only context the inbuilt model should get
-});
+```bash
+# from YOUR application repo
+npx aup init-agents --loop=vscode --url https://staging.example.com
 ```
 
-CLI still writes `reports/<run>/packet.md` for a Cursor/Claude turn. Do not attach `report.json` or `evidence/`.
+That writes:
+
+```
+.github/agents/aup-panel.agent.md
+.github/agents/aup-john.agent.md
+.github/agents/aup-deep.agent.md
+.github/agents/aup-sapna.agent.md
+.github/agents/aup-asha.agent.md
+.vscode/mcp.json         # Playwright Test MCP (merged, not replaced)
+aup.config.yaml          # target.url only — created if missing
+```
+
+Then in VS Code chat, pick **AUP Panel** and say:
+
+> Review checkout.spec.ts against the URL in aup.config.yaml
+
+Other loops: `--loop=cursor` → `.cursor/agents/`, `--loop=claude` → `.claude/agents/`. `--loop=copilot` is the same as `vscode`.
+
+You do **not** need a YAML journey map. The agent finds `*.spec.ts` / `*.test.ts` and follows them. It asks for a URL only if `aup.config.yaml` does not have one.
+
+This is not a WCAG certificate and does not replace people who use assistive technologies.
 
 ## Personas
 

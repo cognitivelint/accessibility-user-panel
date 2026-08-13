@@ -3,6 +3,8 @@ import { Command } from "commander";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { initAgents } from "./init-agents/init.js";
+import { normalizeLoop } from "./init-agents/loops.js";
 import { loadRunConfig } from "./config/load.js";
 import { ConfigError } from "./errors.js";
 import { createLogger } from "./logging.js";
@@ -63,7 +65,7 @@ async function main(): Promise<void> {
   const program = new Command();
   program
     .name("aup")
-    .description("Accessibility User Panel — persona-based Playwright + axe-core exploration")
+    .description("Accessibility User Panel — token-conscious agents on Playwright tests you already have")
     .version(pkg.version);
 
   addRunOptions(program).action(async (opts: RunOpts) => {
@@ -75,6 +77,40 @@ async function main(): Promise<void> {
   ).action(async (opts: RunOpts) => {
     await executeRun(opts);
   });
+
+  program
+    .command("init-agents")
+    .description("Generate markdown subagents for VS Code, Cursor, or Claude (same idea as Playwright init-agents)")
+    .requiredOption("--loop <loop>", "vscode | cursor | claude  (copilot is an alias of vscode)")
+    .option("-u, --url <url>", "App URL to write into aup.config.yaml")
+    .option("--dir <path>", "App repository root (defaults to current directory)")
+    .action((opts: { loop: string; url?: string; dir?: string }) => {
+      try {
+        const result = initAgents({
+          cwd: opts.dir ?? process.cwd(),
+          loop: normalizeLoop(opts.loop),
+          url: opts.url,
+        });
+        process.stdout.write(
+          [
+            `Wrote ${result.files.length} agents to ${result.directory}/`,
+            ...result.files.map((file) => `  ${file}`),
+            `Config: ${result.configPath}`,
+            `MCP: ${result.mcpPath}`,
+            result.tests.length > 0
+              ? `Existing Playwright tests (${result.tests.length}): ${result.tests.slice(0, 8).join(", ")}`
+              : "No Playwright tests found yet — agents will use the URL and ask which spec to follow.",
+            "",
+            "Next: in VS Code chat, pick AUP Panel.",
+            "Give it a URL (if aup.config.yaml has none) and an existing spec — that spec is the journey.",
+            "",
+          ].join("\n"),
+        );
+      } catch (error) {
+        process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`);
+        process.exitCode = 2;
+      }
+    });
 
   program
     .command("agents")
