@@ -1,0 +1,11 @@
+node_modules/
+dist/
+coverage/
+reports/
+evidence/
+*.log
+.DS_Store
+.auth/
+.env
+.env.*
+!.env.example

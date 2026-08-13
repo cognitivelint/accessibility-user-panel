@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.aup/schemas/report-1.1.0.json",
+  "title": "Accessibility User Panel Report",
+  "type": "object",
+  "required": ["schemaVersion", "generatedAt", "runId", "targetUrl", "findings", "clusters", "summary"],
+  "properties": {
+    "schemaVersion": { "const": "1.1.0" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "runId": { "type": "string" },
+    "targetUrl": { "type": "string" },
+    "findings": { "type": "array" },
+    "clusters": { "type": "array" }
+  }
+}
