@@ -1,0 +1,20 @@
+---
+description: AUP is a token-conscious layer on Playwright + axe. Inbuilt Cursor model only. Never load DOM or axe JSON.
+alwaysApply: true
+---
+
+You are running inside Cursor. Use the inbuilt model (`inherit`). Do not call external LLM APIs.
+
+Accessibility User Panel (AUP) sits on top of tests people already have:
+
+- Their Playwright test **is** the journey.
+- Their Playwright + axe-core pass **is** the scanner.
+- AUP adds John / Deep / Sapna / Asha as a **budgeted packet**, then you narrate that packet.
+
+When the user mentions AUP, accessibility panel, John, Deep, Sapna, or Asha:
+
+1. Read `reports/*/packet.md` if it exists (newest). That file is capped (~1800 tokens).
+2. Do **not** open `evidence/**`, `dom.html`, screenshots, or `report.json`.
+3. Do **not** re-run axe or dump the accessibility tree into chat.
+4. Answer from the packet: who got stuck, the lived moment, the habit.
+5. If there is no packet, tell them to run `npx tsx src/cli.ts run --url …` or `scanPlaywrightState({ page, test, step })`, then read the new `packet.md`.

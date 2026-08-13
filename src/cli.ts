@@ -48,7 +48,9 @@ async function executeRun(opts: RunOpts): Promise<void> {
       evidenceDir: opts.evidenceDir,
     });
     const result = await runAccessibilityPanel(config, log);
-    process.stdout.write(`\n${renderCliBriefing(result.report)}\n\nBriefing: ${result.markdownPath}\n`);
+    process.stdout.write(
+      `\n${renderCliBriefing(result.report)}\n\nPacket (${result.packetTokens} tokens): ${result.packetMarkdownPath}\nBriefing: ${result.markdownPath}\n`,
+    );
     process.exitCode = result.exitCode;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);

@@ -2,9 +2,22 @@
 
 ## Principle
 
-Automated rules tell us what may be wrong. Simulated perspectives help us understand why it matters. The briefing exists so developers become conscious of John, Deep, and Sapna **while they write the next component**, not only when CI fails.
+AUP is a **token-conscious AI layer** on Playwright + axe-core. The journey is the test you already wrote. The scanner is axe you already run. The panel compresses extra persona evidence into a packet for Cursor’s or Claude’s inbuilt model.
 
-Every finding must include a lived moment and a habit. Rule IDs belong under evidence, never in the headline.
+```
+Playwright test (journey you already have)
+        │
+        ▼  after the same action where you call axe
+Local collector (John/Deep/Sapna/Asha)  ← zero model tokens
+        │
+        ▼  ≤ ~1800 tokens, no DOM, no axe JSON
+packet.md / packet.json
+        │
+        ▼  model: inherit
+Cursor inbuilt LLM  or  Claude inbuilt LLM
+```
+
+## Layers
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -23,8 +36,6 @@ Every finding must include a lived moment and a habit. Rule IDs belong under evi
                  Markdown + JSON reports
 ```
 
-## Layers
-
 | Layer | Location | Responsibility |
 | --- | --- | --- |
 | Agent contracts | `agents/*.agent.md` | Identity, constraints, severity, evidence rules |
@@ -36,7 +47,9 @@ Every finding must include a lived moment and a habit. Rule IDs belong under evi
 | Findings | `src/findings/engine.ts` | Stable IDs, clustering across agents |
 | Evidence | `src/evidence-store.ts` | Run-scoped artifact writes |
 | Report | `src/report/write.ts` | Briefing first, JSON second |
-| CLI | `src/cli.ts` | Enterprise entrypoint and exit codes |
+| Token packet | `src/ai/packet.ts` | Caps model context (~1800 tokens); drops DOM/axe dumps |
+| Playwright state scan | `src/ai/scan-state.ts` | Same hook as `AxeBuilder.analyze()` |
+| Cursor / Claude | `.cursor/`, `.claude/`, `AGENTS.md`, `CLAUDE.md` | Inbuilt models only |
 
 ## Execution loop
 

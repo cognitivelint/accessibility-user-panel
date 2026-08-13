@@ -1,7 +1,7 @@
 {
   "name": "accessibility-user-panel",
   "version": "0.1.0",
-  "description": "Enterprise accessibility review panel: Playwright agency, axe-core evidence, and persona-based exploration.",
+  "description": "Token-conscious AI layer on Playwright + axe-core for Cursor and Claude inbuilt models.",
   "license": "Apache-2.0",
   "type": "module",
   "engines": {
@@ -19,10 +19,16 @@
     }
   },
   "files": [
+    "bin",
     "dist",
+    "src",
     "agents",
     "skills",
-    "schemas"
+    "schemas",
+    ".cursor",
+    ".claude",
+    "AGENTS.md",
+    "CLAUDE.md"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
