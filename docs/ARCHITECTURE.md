@@ -2,15 +2,15 @@
 
 ## Principle
 
-AUP is a **token-conscious AI layer** on Playwright + axe-core. The journey is the test you already wrote. The scanner is axe you already run. The panel compresses extra persona evidence into a packet for Cursor’s or Claude’s inbuilt model.
+AUP is a **token-conscious AI layer** on Playwright + axe-core, with eslint-plugin-jsx-a11y as source-level proof for John, Deep, and Sapna. The journey is the test you already wrote. The scanners are axe you already run and jsx-a11y you already lint. The panel compresses extra persona evidence into a packet for Cursor’s or Claude’s inbuilt model.
 
 ```
 Playwright test (journey you already have)
         │
         ▼  after the same action where you call axe
-Local collector (John/Deep/Sapna/Asha)  ← zero model tokens
+Local collector (John/Deep/Sapna + jsx-a11y, Asha + axe)  ← zero model tokens
         │
-        ▼  ≤ ~1800 tokens, no DOM, no axe JSON
+        ▼  ≤ ~1800 tokens, no DOM, no axe/eslint JSON
 packet.md / packet.json
         │
         ▼  model: inherit
@@ -39,7 +39,7 @@ Cursor inbuilt LLM  or  Claude inbuilt LLM
 | Layer | Location | Responsibility |
 | --- | --- | --- |
 | Agent contracts | `agents/*.agent.md` | Identity, constraints, severity, evidence rules |
-| Skills | `skills/*/SKILL.md` + `src/skills/` | axe scan, keyboard trace, a11y tree, reporting |
+| Skills | `skills/*/SKILL.md` + `src/skills/` | axe scan, jsx-a11y collect, keyboard trace, a11y tree, reporting |
 | Browser | `src/browser/session.ts` | Chromium lifecycle, auth state, timeouts |
 | Journeys | `src/journeys/execute.ts` | Meaningful UI states, not a single page scan |
 | Personas | `src/personas/` | Perspective-specific evaluation |

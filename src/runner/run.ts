@@ -9,6 +9,7 @@ import { writeReports } from "../report/write.js";
 import type { Finding } from "../schema/finding.js";
 import type { Journey, Report, RunConfig } from "../schema/report.js";
 import { REPORT_SCHEMA_VERSION } from "../schema/versions.js";
+import { collectJsxA11yHits } from "../skills/jsx-a11y-collect.js";
 import { nowIso } from "../util/ids.js";
 import { meetsFailOn } from "../util/severity.js";
 
@@ -30,6 +31,13 @@ export async function runAccessibilityPanel(config: RunConfig, log: Logger): Pro
   const journeys: Journey[] = config.journeys?.length ? config.journeys : [DEFAULT_JOURNEY];
   const findings: Finding[] = [];
   const outcomes: Report["journeys"] = [];
+  const staticAnalysis = collectJsxA11yHits(process.cwd());
+  if (staticAnalysis.skippedReason) {
+    log.info("jsx-a11y skipped", { reason: staticAnalysis.skippedReason });
+  } else {
+    log.info("jsx-a11y hits", { count: staticAnalysis.hits.length });
+  }
+  let staticShared = false;
 
   try {
     for (const journey of journeys) {
@@ -65,6 +73,7 @@ export async function runAccessibilityPanel(config: RunConfig, log: Logger): Pro
               step,
               evidence,
               log: personaLog,
+              jsxA11y: staticShared ? [] : staticAnalysis.hits,
             });
             findings.push(...produced);
           } catch (error) {
@@ -73,6 +82,7 @@ export async function runAccessibilityPanel(config: RunConfig, log: Logger): Pro
             });
           }
         }
+        staticShared = true;
 
         const johnBlock = findings.find(
           (finding) =>

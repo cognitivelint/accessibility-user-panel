@@ -6,6 +6,7 @@ import type { Journey, JourneyStep, RunConfig } from "../schema/report.js";
 import { FINDING_SCHEMA_VERSION } from "../schema/versions.js";
 import { stableId } from "../util/ids.js";
 import type { AgentId, Category, Confidence, Evidence, Severity } from "../schema/finding.js";
+import type { JsxA11yHit } from "../skills/jsx-a11y.js";
 
 export interface ExplorationContext {
   page: Page;
@@ -14,6 +15,8 @@ export interface ExplorationContext {
   step: JourneyStep;
   evidence: EvidenceStore;
   log: Logger;
+  /** Shared eslint-plugin-jsx-a11y hits for John, Deep, and Sapna. */
+  jsxA11y?: JsxA11yHit[];
 }
 
 export interface PersonaAgent {

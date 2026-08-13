@@ -8,4 +8,6 @@ export { buildModelPacket, renderPacketMarkdown } from "./ai/packet.js";
 export { estimateTokens, DEFAULT_PACKET_TOKEN_BUDGET } from "./ai/tokens.js";
 export { FindingSchema, ReportSchema, RunConfigSchema } from "./schema/index.js";
 export type { Finding, Report, RunConfig } from "./schema/index.js";
+export { collectJsxA11yHits } from "./skills/jsx-a11y-collect.js";
+export { parseEslintJsxA11y } from "./skills/jsx-a11y.js";
 export type { ModelPacket } from "./ai/packet.js";

@@ -8,6 +8,7 @@ import type { Journey, JourneyStep, RunConfig } from "../schema/report.js";
 import { slug } from "../util/ids.js";
 import { buildModelPacket, type ModelPacket } from "./packet.js";
 import { DEFAULT_PACKET_TOKEN_BUDGET } from "./tokens.js";
+import { collectJsxA11yHits } from "../skills/jsx-a11y-collect.js";
 
 export interface ScanStateOptions {
   page: Page;
@@ -20,6 +21,7 @@ export interface ScanStateOptions {
   maxTabs?: number;
   axeTags?: string[];
   maxTokens?: number;
+  projectRoot?: string;
 }
 
 const DEFAULT_AXE_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "best-practice"];
@@ -55,6 +57,7 @@ export async function scanPlaywrightState(options: ScanStateOptions): Promise<{
   const evidence = new EvidenceStore(config.output.evidenceDir, `pw-${Date.now()}`);
   const log = createLogger("error", { app: "aup-state" });
   const findings: Finding[] = [];
+  const jsxA11y = collectJsxA11yHits(options.projectRoot ?? process.cwd()).hits;
 
   for (const persona of resolveAgents(config.agents)) {
     findings.push(
@@ -65,6 +68,7 @@ export async function scanPlaywrightState(options: ScanStateOptions): Promise<{
         step,
         evidence,
         log: log.child({ agent: persona.id }),
+        jsxA11y,
       })),
     );
   }

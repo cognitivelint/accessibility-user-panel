@@ -11,4 +11,4 @@ AUP uses **inbuilt** Cursor and Claude models (`model: inherit`). It does not sh
 | `agents/*.agent.md` | Persona contracts (John, Deep, Sapna, Asha) |
 | `skills/token-packet/SKILL.md` | How the packet is produced |
 
-The model never sees the full axe payload or HTML. Proof in the packet looks like `axe:label` or a short selector.
+The model never sees the full axe payload, eslint JSON, or HTML. Proof in the packet looks like `axe:label`, `jsx-a11y:alt-text`, or a short selector.
