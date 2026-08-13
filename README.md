@@ -31,6 +31,8 @@ npm install
 npx playwright install chromium
 npm run demo:serve
 # in another shell
+npx tsx src/cli.ts run --url http://127.0.0.1:3000
+# also valid:
 npx tsx src/cli.ts run --config aup.config.yaml
 ```
 
