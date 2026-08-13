@@ -32,6 +32,7 @@ describe("init-agents", () => {
     const panel = readFileSync(join(cwd, ".github/agents/aup-panel.agent.md"), "utf8");
     expect(panel).toContain("name: aup-panel");
     expect(panel).toContain("playwright-test/browser_navigate");
+    expect(panel).toContain("eslint-plugin-jsx-a11y");
     expect(panel).toContain("Existing Playwright tests");
     expect(panel).toContain("handoffs:");
     expect(panel).toContain("agent: aup-john");
@@ -70,5 +71,6 @@ describe("init-agents", () => {
     expect(result.mcpPath).toBe(".mcp.json");
     const body = readFileSync(join(cwd, ".claude/agents/aup-john.md"), "utf8");
     expect(body).toContain("model: inherit");
+    expect(body).toContain("eslint-plugin-jsx-a11y");
   });
 });

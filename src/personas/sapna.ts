@@ -1,4 +1,5 @@
 import { collectCognitiveSignals } from "../skills/cognitive.js";
+import { findingsFromJsxA11y } from "./static-jsx-a11y.js";
 import { createFinding, type ExplorationContext, type PersonaAgent } from "./types.js";
 import type { Finding } from "../schema/finding.js";
 
@@ -125,6 +126,7 @@ export class SapnaCognitiveAgent implements PersonaAgent {
       );
     }
 
+    findings.push(...findingsFromJsxA11y(ctx, this.id));
     return findings;
   }
 }

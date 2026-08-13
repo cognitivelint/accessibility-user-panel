@@ -34,8 +34,17 @@ export const AxeEvidenceSchema = z.object({
 });
 export type AxeEvidence = z.infer<typeof AxeEvidenceSchema>;
 
+export const JsxA11yEvidenceSchema = z.object({
+  ruleId: z.string(),
+  file: z.string(),
+  line: z.number().int().nonnegative(),
+  message: z.string(),
+});
+export type JsxA11yEvidence = z.infer<typeof JsxA11yEvidenceSchema>;
+
 export const EvidenceSchema = z.object({
   axe: AxeEvidenceSchema.optional(),
+  jsxA11y: JsxA11yEvidenceSchema.optional(),
   snapshotPath: z.string().optional(),
   screenshotPath: z.string().optional(),
   htmlSnippetPath: z.string().optional(),

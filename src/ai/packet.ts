@@ -15,7 +15,9 @@ export const ModelPacketSchema = z.object({
   schemaVersion: z.literal("1.0.0"),
   role: z.literal("aup-model-packet"),
   instruction:
-    z.literal("Use only this packet. Do not open DOM, screenshots, or axe JSON. Do not re-run axe."),
+    z.literal(
+      "Use only this packet. Do not open DOM, screenshots, axe JSON, or eslint JSON. Do not re-run axe.",
+    ),
   budget: z.object({
     maxTokens: z.number().int().positive(),
     usedTokens: z.number().int().nonnegative(),
@@ -41,6 +43,10 @@ export const ModelPacketSchema = z.object({
 export type ModelPacket = z.infer<typeof ModelPacketSchema>;
 
 function proofOf(finding: Finding): string {
+  if (finding.evidence.jsxA11y?.ruleId) {
+    const rule = finding.evidence.jsxA11y.ruleId.replace(/^jsx-a11y\//, "");
+    return `jsx-a11y:${rule}`;
+  }
   if (finding.evidence.axe?.ruleId) {
     return `axe:${finding.evidence.axe.ruleId}`;
   }
@@ -73,7 +79,8 @@ export function buildModelPacket(
   const header = {
     schemaVersion: "1.0.0" as const,
     role: "aup-model-packet" as const,
-    instruction: "Use only this packet. Do not open DOM, screenshots, or axe JSON. Do not re-run axe." as const,
+    instruction:
+      "Use only this packet. Do not open DOM, screenshots, axe JSON, or eslint JSON. Do not re-run axe." as const,
     scene: {
       url: clip(report.targetUrl, 120),
       test: report.journeys.map((journey) => journey.journeyId).join(",") || "page",

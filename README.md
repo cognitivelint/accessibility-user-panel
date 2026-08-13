@@ -32,6 +32,8 @@ No YAML journey map. The agent follows `*.spec.ts` / `*.test.ts`.
 | **Sapna** | Is the next step obvious? Can I recover? |
 | **Asha** | What can we prove — as a lived moment, not a rule ID? |
 
+John, Deep, and Sapna also use **eslint-plugin-jsx-a11y** when the app already has it: source-level proof (`jsx-a11y:alt-text`), confirmed on the live journey. Asha remains the axe-core auditor.
+
 This is not a WCAG certificate and does not replace people who use assistive technologies.
 
 ## Optional: run the collector
