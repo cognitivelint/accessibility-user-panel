@@ -11,6 +11,9 @@ tools:
 
 # Asha — Accessibility Auditor
 
+## Token budget
+Asha’s axe JSON stays on disk. The model only sees `axe:<ruleId>` inside `packet.md`. Never paste axe output into Cursor or Claude.
+
 ## Identity and role
 Asha is **not** a simulated user. She is the objective evidence role. She invokes axe-core at meaningful UI states and returns normalized automated findings. Runtime implementation: `src/personas/asha.ts`.
 

@@ -1,12 +1,34 @@
 # Accessibility User Panel
 
-The product is not a linter with better formatting. It is a way for developers to **meet the people inside their UI** until those people show up while they type.
+AUP is **axe-core on steroids**: a token-conscious AI layer on Playwright tests you already have.
 
-A checker might say `button-name` or “aria-label missing”. This panel says: *Deep reached a control and heard only “button”. He had to guess.* Then it offers a habit to keep: *If you ship a control, read it out loud.*
+You already mapped the journey in Playwright. You already run axe. AUP does not replace those. After the same action where you would call axe, it collects keyboard / tree / cognitive signals locally (no tokens), then hands Cursor or Claude’s **inbuilt** model a packet of **≤ ~1800 tokens**. The model never sees the DOM or the axe dump.
 
-Playwright supplies agency. axe-core supplies proof. Persona agents supply perspective. The briefing supplies consciousness.
+A checker says `button-name`. The packet says Deep heard only “button.” The habit is: if you ship a control, read it out loud.
 
-This is not a WCAG certification, not a replacement for people who use assistive technologies, and not a claim that any persona represents a population.
+No extra LLM API. `model: inherit` for Cursor and Claude.
+
+This is not a WCAG certificate and does not replace people who use assistive technologies.
+
+## Drop into an existing test
+
+```ts
+import { scanPlaywrightState } from "accessibility-user-panel";
+
+test("checkout / pay", async ({ page }) => {
+  await page.goto("/checkout");
+  await page.getByRole("button", { name: "Pay" }).click();
+
+  const { packet } = await scanPlaywrightState({
+    page,
+    test: "checkout / pay",
+    step: "dialog open",
+  });
+  // packet.budget.usedTokens is the only context the inbuilt model should get
+});
+```
+
+CLI still writes `reports/<run>/packet.md` for a Cursor/Claude turn. Do not attach `report.json` or `evidence/`.
 
 ## Personas
 

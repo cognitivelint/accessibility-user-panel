@@ -1,5 +1,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
+import { buildModelPacket, renderPacketMarkdown } from "../ai/packet.js";
+import { DEFAULT_PACKET_TOKEN_BUDGET } from "../ai/tokens.js";
 import type { AgentId, Finding } from "../schema/finding.js";
 import type { Report } from "../schema/report.js";
 import { unique } from "../util/ids.js";
@@ -147,12 +149,23 @@ export function renderCliBriefing(report: Report): string {
   ].join("\n");
 }
 
-export function writeReports(report: Report, reportsDir: string): { jsonPath: string; markdownPath: string } {
+export function writeReports(report: Report, reportsDir: string): {
+  jsonPath: string;
+  markdownPath: string;
+  packetPath: string;
+  packetMarkdownPath: string;
+  packetTokens: number;
+} {
   const dir = resolve(reportsDir, report.runId);
   mkdirSync(dir, { recursive: true });
   const jsonPath = join(dir, "report.json");
   const markdownPath = join(dir, "report.md");
+  const packet = buildModelPacket(report, DEFAULT_PACKET_TOKEN_BUDGET);
+  const packetPath = join(dir, "packet.json");
+  const packetMarkdownPath = join(dir, "packet.md");
   writeFileSync(jsonPath, `${JSON.stringify(report, null, 2)}\n`);
   writeFileSync(markdownPath, renderMarkdownReport(report));
-  return { jsonPath, markdownPath };
+  writeFileSync(packetPath, `${JSON.stringify(packet)}\n`);
+  writeFileSync(packetMarkdownPath, renderPacketMarkdown(packet));
+  return { jsonPath, markdownPath, packetPath, packetMarkdownPath, packetTokens: packet.budget.usedTokens };
 }

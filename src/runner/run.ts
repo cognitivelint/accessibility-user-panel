@@ -16,6 +16,9 @@ export interface RunResult {
   report: Report;
   jsonPath: string;
   markdownPath: string;
+  packetPath: string;
+  packetMarkdownPath: string;
+  packetTokens: number;
   exitCode: number;
 }
 
@@ -49,7 +52,7 @@ export async function runAccessibilityPanel(config: RunConfig, log: Logger): Pro
         }
 
         const html = await session.page.content();
-        evidence.text(`${journey.id}/${step.id}/dom.html`, html.slice(0, 200_000));
+        evidence.text(`${journey.id}/${step.id}/dom.html`, html.slice(0, 8_000));
 
         for (const persona of personas) {
           const personaLog = journeyLog.child({ agent: persona.id, step: step.id });
@@ -130,12 +133,16 @@ export async function runAccessibilityPanel(config: RunConfig, log: Logger): Pro
     findings: uniqueFindings.length,
     clusters: clusters.length,
     jsonPath: paths.jsonPath,
+    packetTokens: paths.packetTokens,
   });
 
   return {
     report,
     jsonPath: paths.jsonPath,
     markdownPath: paths.markdownPath,
+    packetPath: paths.packetPath,
+    packetMarkdownPath: paths.packetMarkdownPath,
+    packetTokens: paths.packetTokens,
     exitCode: shouldFail ? 1 : 0,
   };
 }
