@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Checkout</title>
+    <style>
+      :root { font-family: Georgia, serif; }
+      body { margin: 0; background: #f6f1e8; color: #b8b2a8; }
+      header { display: flex; justify-content: space-between; padding: 16px 24px; background: #fff; }
+      .brand { font-size: 28px; color: #222; }
+      .nav-toggle { width: 36px; height: 28px; background: #333; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+      nav { display: none; background: #222; color: #fff; padding: 12px; }
+      nav.open { display: block; }
+      nav a { color: #eee; margin-right: 16px; }
+      .hero { padding: 24px; background: linear-gradient(90deg, #f4d03f, #e67e22); overflow: hidden; }
+      .ticker { animation: slide 3s linear infinite; white-space: nowrap; color: #fff; font-size: 20px; }
+      @keyframes slide { from { transform: translateX(0); } to { transform: translateX(-40%); } }
+      main { padding: 24px; max-width: 720px; }
+      h3 { color: #222; }
+      img { width: 120px; }
+      form { display: grid; gap: 12px; background: #fff; padding: 20px; }
+      input { padding: 8px; border: 1px solid #ddd; }
+      .actions { display: flex; gap: 8px; }
+      button, .btn { padding: 8px 14px; border: 0; background: #0b57d0; color: #fff; cursor: pointer; }
+      button:focus, a:focus, input:focus { outline: none; }
+      .ghost { background: #5b8def; }
+      .errors { color: #c00; min-height: 1.2em; }
+      .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); }
+      .modal.open { display: flex; align-items: center; justify-content: center; }
+      .sheet { background: #fff; padding: 24px; min-width: 320px; color: #222; }
+      .icon-close { float: right; cursor: pointer; font-size: 24px; }
+      .success { display: none; padding: 12px; background: #e8f5e9; color: #1b5e20; }
+      .low-contrast { color: #d7d2c9; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="brand">Northwind Pay</div>
+      <div class="nav-toggle" onclick="document.querySelector('nav').classList.toggle('open')">☰</div>
+    </header>
+    <nav>
+      <a href="#checkout">Checkout</a>
+      <a href="#help">Help</a>
+    </nav>
+    <div class="hero">
+      <div class="ticker" data-auto-rotate>Flash sale · Flash sale · Flash sale · Flash sale · Flash sale</div>
+    </div>
+    <div>
+      <h3>Complete your purchase</h3>
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='80'%3E%3Crect fill='%23ccc' width='120' height='80'/%3E%3C/svg%3E" />
+      <p class="low-contrast">Enter payment details to finish. Offers change every few seconds.</p>
+      <form id="checkout" onsubmit="return showErrors(event)">
+        <input id="email" name="email" placeholder="Email" />
+        <span>Card number</span>
+        <input name="card" placeholder="ACCT-000049" />
+        <div class="errors" id="errs"></div>
+        <div class="actions">
+          <button type="button" class="ghost" onclick="void 0">Save</button>
+          <button type="button" class="ghost" onclick="void 0">Apply</button>
+          <button type="submit">Continue</button>
+          <button type="button" data-opens="dialog" onclick="openPay()">Pay</button>
+        </div>
+      </form>
+      <div class="success" id="success">Order placed.</div>
+    </div>
+    <div class="modal" id="pay-modal">
+      <div class="sheet">
+        <span class="icon-close" onclick="closePay()">×</span>
+        <p>Confirm payment of $42.00</p>
+        <button type="button" onclick="confirmPay()">Confirm</button>
+      </div>
+    </div>
+    <script>
+      function showErrors(event) {
+        event.preventDefault();
+        document.getElementById("errs").textContent = "Email and card are required.";
+        return false;
+      }
+      function openPay() {
+        document.getElementById("pay-modal").classList.add("open");
+      }
+      function closePay() {
+        document.getElementById("pay-modal").classList.remove("open");
+      }
+      function confirmPay() {
+        closePay();
+        document.getElementById("success").style.display = "block";
+      }
+    </script>
+  </body>
+</html>

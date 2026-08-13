@@ -1,0 +1,43 @@
+target:
+  url: http://127.0.0.1:4173
+  viewport:
+    width: 1280
+    height: 720
+
+agents:
+  - asha
+  - deep
+  - sapna
+  - john
+
+failOn: high
+headless: true
+maxTabs: 40
+
+output:
+  reportsDir: reports
+  evidenceDir: evidence
+
+journeys:
+  - id: checkout
+    name: Checkout
+    description: Pay for an order using the demo storefront.
+    steps:
+      - id: landing
+        name: Landing page
+        kind: explore
+      - id: navigation
+        name: Navigation open
+        kind: open-navigation
+      - id: form
+        name: Form entered
+        kind: enter-form
+      - id: validation
+        name: Validation error
+        kind: submit-invalid
+      - id: dialog
+        name: Dialog open
+        kind: open-dialog
+      - id: success
+        name: Success state
+        kind: complete-success
