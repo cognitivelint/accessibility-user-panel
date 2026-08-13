@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { loadRunConfig } from "../../src/config/load.js";
 import { ConfigError } from "../../src/errors.js";
-import { clusterFindings, dedupeFindings } from "../../src/findings/engine.js";
+import { clusterFindings, collapseRepeatedFindings, dedupeFindings } from "../../src/findings/engine.js";
 import { createFinding } from "../../src/personas/types.js";
 import { FindingSchema } from "../../src/schema/finding.js";
 import { axeImpactToSeverity, maxSeverity, meetsFailOn } from "../../src/util/severity.js";
@@ -85,6 +85,13 @@ describe("finding engine", () => {
     const clusters = clusterFindings(duped);
     expect(clusters.length).toBeGreaterThanOrEqual(2);
     expect(clusters.some((cluster) => cluster.agents.includes("asha"))).toBe(true);
+
+    const repeated = collapseRepeatedFindings([
+      john,
+      { ...john, id: "other", step: "landing" },
+    ]);
+    expect(repeated).toHaveLength(1);
+    expect(repeated[0]?.tags).toContain("also:landing");
   });
 });
 

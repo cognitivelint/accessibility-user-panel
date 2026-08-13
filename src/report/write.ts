@@ -1,7 +1,6 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import type { Report } from "../schema/report.js";
-import { slug } from "../util/ids.js";
 
 function mdEscape(value: string): string {
   return value.replace(/\|/g, "\\|");
@@ -89,7 +88,7 @@ export function renderMarkdownReport(report: Report): string {
 }
 
 export function writeReports(report: Report, reportsDir: string): { jsonPath: string; markdownPath: string } {
-  const dir = resolve(reportsDir, slug(report.runId));
+  const dir = resolve(reportsDir, report.runId);
   mkdirSync(dir, { recursive: true });
   const jsonPath = join(dir, "report.json");
   const markdownPath = join(dir, "report.md");

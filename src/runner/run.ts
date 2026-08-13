@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { BrowserSession } from "../browser/session.js";
 import { EvidenceStore } from "../evidence/store.js";
-import { clusterFindings, countByAgent, countBySeverity, dedupeFindings } from "../findings/engine.js";
+import { clusterFindings, countByAgent, countBySeverity, collapseRepeatedFindings, dedupeFindings } from "../findings/engine.js";
 import { DEFAULT_JOURNEY, executeStep } from "../journeys/execute.js";
 import type { Logger } from "../logging.js";
 import { resolveAgents } from "../personas/registry.js";
@@ -95,7 +95,7 @@ export async function runAccessibilityPanel(config: RunConfig, log: Logger): Pro
     await session.close();
   }
 
-  const uniqueFindings = dedupeFindings(findings);
+  const uniqueFindings = collapseRepeatedFindings(dedupeFindings(findings));
   const clusters = clusterFindings(uniqueFindings);
   const bySeverity = countBySeverity(uniqueFindings);
   const keyboardBlocked = outcomes.some((outcome) => outcome.blockedAt !== null && uniqueFindings.some((finding) => finding.agent === "john" && finding.journey === outcome.journeyId && finding.severity === "critical"));
