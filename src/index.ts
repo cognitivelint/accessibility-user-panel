@@ -1,4 +1,6 @@
 export { loadRunConfig } from "./config/load.js";
+export { initAgents } from "./init-agents/init.js";
+export { normalizeLoop } from "./init-agents/loops.js";
 export { createLogger } from "./logging.js";
 export { runAccessibilityPanel } from "./runner/run.js";
 export { scanPlaywrightState } from "./ai/scan-state.js";
