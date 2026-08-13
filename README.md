@@ -36,6 +36,21 @@ npx tsx src/cli.ts run --config aup.config.yaml
 
 Read `reports/<runId>/report.md` first. That briefing is the product. JSON and `evidence/` are for CI and for opening the editor.
 
+## If you see `Cannot find module .../src/evidence/store.js`
+
+Your tree is stale or a local `src/runner/run.ts` still has the old import. From the repo root:
+
+```bash
+git fetch origin
+git checkout main
+git reset --hard origin/main
+ls src/evidence/store.ts src/evidence-store.ts
+head -5 src/runner/run.ts
+npx tsx src/cli.ts --url http://127.0.0.1:3000
+```
+
+`head` should mention `evidence-store.js` or the folder `src/evidence/store.ts` must exist. Do not run `node src/cli.ts`.
+
 ## Configuration
 
 See [`aup.config.yaml`](aup.config.yaml). CLI flags override file and environment (`AUP_URL`, `AUP_HEADLESS`, `AUP_FAIL_ON`).
