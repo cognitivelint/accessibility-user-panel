@@ -1,8 +1,8 @@
 node_modules/
 dist/
 coverage/
-reports/
-evidence/
+/reports/
+/evidence/
 *.log
 .DS_Store
 .auth/

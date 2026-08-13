@@ -34,7 +34,7 @@ Every finding must include a lived moment and a habit. Rule IDs belong under evi
 | Personas | `src/personas/` | Perspective-specific evaluation |
 | Voice | `src/voice/` | Lived moments, habits, axe-to-story translation |
 | Findings | `src/findings/engine.ts` | Stable IDs, clustering across agents |
-| Evidence | `src/evidence/store.ts` | Run-scoped artifact writes |
+| Evidence | `src/evidence-store.ts` | Run-scoped artifact writes |
 | Report | `src/report/write.ts` | Briefing first, JSON second |
 | CLI | `src/cli.ts` | Enterprise entrypoint and exit codes |
 
