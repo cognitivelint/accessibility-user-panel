@@ -31,6 +31,7 @@
     "clean": "rm -rf dist reports evidence coverage",
     "cli": "tsx src/cli.ts",
     "aup": "tsx src/cli.ts",
+    "scan": "tsx src/cli.ts",
     "demo": "tsx scripts/demo-run.ts",
     "lint": "eslint .",
     "test": "vitest run",

@@ -36,15 +36,21 @@ npm run demo
 
 That starts the broken checkout fixture and writes a briefing under `reports/<runId>/report.md`.
 
-To scan your own app after install:
+To scan your own app (Node 20+, from the repo root, after `npm install`):
 
 ```bash
-npm run aup -- run --url http://127.0.0.1:3000
-# or
-npx tsx src/cli.ts run --config aup.config.yaml
+npx tsx src/cli.ts --url http://127.0.0.1:3000
 ```
 
-If you already compiled (`npm run build`), `node dist/cli.js run --url ...` also works.
+That command works even if `npm run aup` is missing (older checkouts only had `cli`). After pulling this branch you can also use:
+
+```bash
+npm run aup -- --url http://127.0.0.1:3000
+npm run scan -- --url http://127.0.0.1:3000
+npm run cli -- --url http://127.0.0.1:3000
+```
+
+If `tsx` is not found, run `npm install` in this repo first. Do not use `node src/cli.ts`.
 
 Read `reports/<runId>/report.md` first. That briefing is the product. JSON and `evidence/` are for CI and for opening the editor.
 
