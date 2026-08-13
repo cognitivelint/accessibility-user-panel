@@ -1,5 +1,5 @@
 import type { Page } from "playwright";
-import type { EvidenceStore } from "../evidence/store.js";
+import type { EvidenceStore } from "../evidence-store.js";
 import type { Logger } from "../logging.js";
 import type { Finding } from "../schema/finding.js";
 import type { Journey, JourneyStep, RunConfig } from "../schema/report.js";

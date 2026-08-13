@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { BrowserSession } from "../browser/session.js";
-import { EvidenceStore } from "../evidence/store.js";
+import { EvidenceStore } from "../evidence-store.js";
 import { clusterFindings, countByAgent, countBySeverity, collapseRepeatedFindings, dedupeFindings } from "../findings/engine.js";
 import { DEFAULT_JOURNEY, executeStep } from "../journeys/execute.js";
 import type { Logger } from "../logging.js";
