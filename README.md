@@ -26,13 +26,25 @@ Agent contracts live in [`agents/`](agents/). Runtimes live in [`src/personas/`]
 
 ## Quick start
 
+Do not run `node src/cli.ts`. TypeScript imports `*.js` modules; those files only exist after `npm run build`, or when running through `tsx`.
+
 ```bash
 npm install
 npx playwright install chromium
-npm run demo:serve
-# in another shell
+npm run demo
+```
+
+That starts the broken checkout fixture and writes a briefing under `reports/<runId>/report.md`.
+
+To scan your own app after install:
+
+```bash
+npm run aup -- run --url http://127.0.0.1:3000
+# or
 npx tsx src/cli.ts run --config aup.config.yaml
 ```
+
+If you already compiled (`npm run build`), `node dist/cli.js run --url ...` also works.
 
 Read `reports/<runId>/report.md` first. That briefing is the product. JSON and `evidence/` are for CI and for opening the editor.
 
